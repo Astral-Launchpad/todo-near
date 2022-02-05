@@ -1,0 +1,34 @@
+{
+  "name": "astraltool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "asb",
+    "deploy": "near dev-deploy build/optimized.wasm",
+    "dev": "npm run build && npm run deploy",
+    "test": "asp",
+    "test:all": "npm run test:create && npm run test:findById && npm run test:update && npm run test:find",
+    "test:create": "npx near call $(cat neardev/dev-account) create '{\"task\":\"Drink water\"}' --accountId $(cat neardev/dev-account)",
+    "test:findById": "npx near view $(cat neardev/dev-account) getById '{\"id\":2342859876}' --accountId $(cat neardev/dev-account)",
+    "test:find": "npx near view $(cat neardev/dev-account) get '{\"offset\":0}' --accountId $(cat neardev/dev-account)",
+    "test:update": "npx near view $(cat neardev/dev-account) update '{\"id\":2342859876, \"updates\":{\"done\":true, \"task\":\"Drink nothing\"} }' --accountId $(cat neardev/dev-account)",
+    "test:del": "npx near view $(cat neardev/dev-account) del '{\"id\":2342859876 }' --accountId $(cat neardev/dev-account)",
+    "asbuild:untouched": "asc assembly/index.ts --target debug",
+    "asbuild:optimized": "asc assembly/index.ts --target release",
+    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@assemblyscript/loader": "^0.19.22",
+    "asbuild": "^0.2.0",
+    "assemblyscript": "^0.19.22",
+    "near-cli": "^3.1.0"
+  },
+  "devDependencies": {
+    "assemblyscript": "^0.19.22",
+    "near-sdk-as": "^3.2.3"
+  }
+}
